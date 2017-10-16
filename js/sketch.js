@@ -1,7 +1,6 @@
 var dookieCount = 0;
 var dookiePerSecond = 0;
 var dificulty = 1.05;
-var buyables = [{name:'Bartle', cost: 10, dps: 1, incrament: 0.8}, {name:'Blicker', cost: 100, dps: 5, incrament: 1.6}];
 var xpos = 200;
 var ypos = 200;
 var xspeed = 0;
@@ -9,15 +8,14 @@ var yspeed = 0;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var playerSize = 20;
-var dookieBallExists = false;
-var dbx = -20;
-var dby = -20;
 
-var buyablesCount = [0, 0]
+var turds = [];
+var buyablesCount = [0, 0, 0]
 
 function setup() {   
   var canvas = createCanvas(400, 400);
   canvas.parent('sketch-holder');
+  turds.push(new Turd());
 } 
 
 function draw() {
@@ -26,31 +24,14 @@ function draw() {
   drawItemInfo();
   calculateDPS();
   drawPlayer();
-  if(dookieBallExists == false){
-	addDookieBall();
-  }else{
-	drawDookieBall();  
-  }
-}
-
-function addDookieBall() {
-	dbx = random(380);
-	dby = random(380);
-	dookieBallExists = true;
-}
-
-function drawDookieBall(){
-	rect(dbx, dby, 20, 20);
-}
-
-function touchDookieBall(){
-	var d = dist(xpos, ypos, dbx, dby);
-	if (d <= playerSize){
-		dbx = -10;
-		dby = -10;
-		dookieBallExists = false;
-		dookieCount += 5;
+  for (var i = 0; i < turds.length; i++) {
+    turds[i].render();
+    turds[i].update();
+	if(turds[i].timeout <= 0){
+		turds.splice(i, 1);
+		turds.push(new Turd());		
 	}
+  }
 }
 
 function drawPlayer() {
@@ -70,8 +51,15 @@ function drawPlayer() {
 		ypos = (canvasHeight-playerSize);
 	}
 	
+	fill("white");
 	rect(xpos, ypos, playerSize, playerSize, 10);
-	touchDookieBall();
+	for (var i = 0; i < turds.length; i++) {
+		if(turds[i].touched(xpos, ypos)){
+			dookieCount += turds[i].dookie;
+			turds.splice(i, 1);
+			turds.push(new Turd());
+		}
+	}
 }
 
 function keyPressed() {
