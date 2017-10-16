@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+  </head>
+  <body>
+    <div id="container">
+      <div class="row">
+	    <div class="col-md-6">
+			<div id="sketch-holder">
+			  <!-- Our sketch will go here! -->
+			</div>		
+		</div>
+	    <div class="col-md-6">
+			<div class="row">
+			  <div class="col-xs-6">Dookie Count: <span id="dookieCount">0</span></div>
+			  <div class="col-xs-6 text-right"><button id="click" onClick="clickButton();">Dookie</button></div>
+			</div>
+			<div class="row">
+			  <p><span id="dps"></span> DPS</p>
+			</div>
+			<div id="buyables">
+			 <!-- Bartle -->
+			 <div id="bartle" class="row item" onClick="buyItem(0);">
+			  <div class="col-xs-10">
+			   <p>Bartle (+1 DPS)</p>
+			   <p><span id="bartleCost">10</span> Dookies</p>
+			  </div>
+			  <div class="col-xs-2">
+			   <span class="itemCount" id="bartleCount">0</span>
+			  </div>
+			 </div>
+			 <!-- Blicker -->
+			 <div id="blicker" class="row item" onClick="buyItem(1);">
+			  <div class="col-xs-10">
+			   <p>Blicker (+5 DPS)</p>
+			   <p><span id="blickerCost">100</span> Dookies</p>
+			  </div>
+			  <div class="col-xs-2">
+			   <span class="itemCount" id="blickerCount">0</span>
+			  </div>
+			 </div>
+			</div>
+		</div>
+	  </div>
+	</div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/p5.min.js"></script>
+  <script src="js/sketch.js"></script>  
+</html>
