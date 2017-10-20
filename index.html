@@ -3,6 +3,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="css/tooltipster.bundle.min.css">
   </head>
   <body>
     <div id="container">
@@ -18,13 +19,13 @@
 			  <div class="col-xs-6 text-right"><button id="click" onClick="clickButton();">Dookie</button></div>
 			</div>
 			<div class="row">
-			  <p><span id="dps"></span> DPS</p>
+			  <span id="dps"></span> DPS
 			</div>
 			<div id="buyables">
 			 <!-- Bartle -->
 			 <div id="bartle" class="row item" onClick="buyItem(0);">
 			  <div class="col-xs-10">
-			   <p>Bartle (+1 DPS)</p>
+			   <p>Bartle (+<span id="bartleDPS">1</span> DPS)</p>
 			   <p><span id="bartleCost">10</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
@@ -34,34 +35,44 @@
 			 <!-- Blicker -->
 			 <div id="blicker" class="row item" onClick="buyItem(1);">
 			  <div class="col-xs-10">
-			   <p>Blicker (+5 DPS)</p>
+			   <p>Blicker (+<span id="blickerDPS">5</span> DPS)</p>
 			   <p><span id="blickerCost">100</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
 			   <span class="itemCount" id="blickerCount">0</span>
 			  </div>
 			 </div>
-			 </div>
 			 <!-- Smork -->
 			 <div id="smork" class="row item" onClick="buyItem(2);">
 			  <div class="col-xs-10">
-			   <p>Smork (+15 DPS)</p>
+			   <p>Smork (+<span id="smorkDPS">15</span> DPS)</p>
 			   <p><span id="smorkCost">1250</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
 			   <span class="itemCount" id="smorkCount">0</span>
 			  </div>
-			 </div>			 
+			 </div>
+			</div>
+			
+			<div id="upgrades" class="row">
+
 			</div>
 		</div>
-	  </div>
+	   </div>
 	</div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/tooltipster.bundle.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/p5.min.js"></script>
   <script src="js/buyables.js"></script>  
   <script src="js/sketch.js"></script>  
   <script src="js/turd.js"></script>  
   <script src="js/levels.js"></script>  
+  <script src="js/upgrades.js"></script>
+  <script>
+	$(document).ready(function() {
+		
+	});
+  </script>
 </html>

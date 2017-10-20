@@ -1,11 +1,12 @@
 var dookieCount = 0;
+var dookieCountAllTime = 0;
 var dookiePerSecond = 0;
 var dificulty = 1.05;
 var xspeed = 0;
-var yspeed = 0;
 var gravity = 0.6;
 var lift = -15;
 var velocity = 0;
+var movementSpeed = 2;
 
 var canvasWidth = 400;
 var canvasHeight = 600;
@@ -16,13 +17,16 @@ var wallSize = 10;
 var level;
 
 var turds = [];
-var buyablesCount = [0, 0, 0]
+var turdMultiplier = 1;
+var buyablesCount = [0, 0, 0];
+var upgradesCount = [];
 
 function setup() {   
   var canvas = createCanvas(canvasWidth, canvasHeight);
   canvas.parent('sketch-holder');
   turds.push(new Turd());
   level = random(levels);
+  createUpgrades();
 } 
 
 function draw() {
@@ -43,6 +47,7 @@ function draw() {
 	for (var j = 0; j < level[h].length; j++){
 		var segment = level[h][j];
 		if (segment == 1){
+			fill('black');
 			rect(h*wallSize, j*wallSize, wallSize, wallSize);
 		}
     }
@@ -66,9 +71,7 @@ function isWall(x, y){
 }
 
 function drawPlayer() {
-	console.log(velocity);
 	xpos = xpos + xspeed;
-	// ypos = ypos + yspeed;
 	ypos += velocity;
 	
 	if(xpos < 0){
@@ -103,11 +106,16 @@ function drawPlayer() {
 	rect(xpos, ypos, playerSize, playerSize, 10);
 	for (var i = 0; i < turds.length; i++) {
 		if(turds[i].touched(xpos, ypos)){
-			dookieCount += turds[i].dookie;
+			addDookie(turds[i].dookie * turdMultiplier);
 			turds.splice(i, 1);
 			turds.push(new Turd());
 		}
 	}
+}
+
+function addDookie(amount){
+	dookieCount += amount;
+	dookieCountAllTime += amount;
 }
 
 function keyPressed() {
@@ -115,24 +123,15 @@ function keyPressed() {
 	if(keyCode == 87){
 		velocity += lift;
 	}
-	if(keyCode == 83){
-		yspeed = 2;
-	}
 	if(keyCode == 65){
-		xspeed = -2;
+		xspeed = -movementSpeed;
 	}
 	if(keyCode == 68){
-		xspeed = 2;
+		xspeed = movementSpeed;
 	}
 }
 
 function keyReleased() {
-	if(keyCode == 87){
-		yspeed = 0;
-	}
-	if(keyCode == 83){
-		yspeed = 0;
-	}
 	if(keyCode == 65){
 		xspeed = 0;
 	}
@@ -142,7 +141,7 @@ function keyReleased() {
 }
 
 function clickButton () {
-  dookieCount = dookieCount + 1;
+  addDookie(1);
 }
 
 function buyItem(id) {
@@ -157,6 +156,31 @@ function buyItem(id) {
   }
 }
 
+function upgrade(id) {
+  var hasUpgrade = upgradesCount[id];
+  var itemCost = upgrades[id].cost;
+  var itemType = upgrades[id].type;
+  var itemElementName = upgrades[id].elementName;
+  var itemAmount = upgrades[id].amount;
+
+  if(hasUpgrade == 0){
+	  if (itemCost <= dookieCount){
+		upgradesCount[id] = 1;
+		dookieCount = dookieCount - itemCost;
+		$('#' + itemElementName).remove();
+		if(itemType == "speed"){
+			movementSpeed += itemAmount;
+		}else if(itemType == "turdIncrease"){
+			turdMultiplier += itemAmount;
+		}else if(itemType == "dpsToAll"){
+			for(var x = 0; x < buyables.length; x++){
+				buyables[x].dps += itemAmount;
+			}
+		}
+	  }
+  }
+}
+
 function calculateDPS(){
   var dps = 0;
   for(var i = 0; i < buyables.length; i++){
@@ -166,7 +190,7 @@ function calculateDPS(){
   }
   dookiePerSecond = dps;
   $('#dps').html(dookiePerSecond); 
-  dookieCount += dookiePerSecond / 60;  
+  addDookie(dookiePerSecond / 60);
 }
 
 function drawItemInfo(){
@@ -180,6 +204,7 @@ function drawItemInfo(){
 
 	$('#' + itemName + 'Count').html(buyablesCount[i]); 
 	$('#' + itemName + 'Cost').html(Math.round(realCost));
+	$('#' + itemName + 'DPS').html(buyables[i].dps);
 	if(dookieCount >= realCost){
 	 if($('#' + itemName).hasClass("notBuyable")){
 		$('#' + itemName).removeClass("notBuyable");
@@ -190,4 +215,14 @@ function drawItemInfo(){
 	 }
 	}
   }
+}
+
+function createUpgrades(){
+	var upgradeDiv = $('#upgrades');
+	for (var x = 0; x < upgrades.length; x++){
+		upgradesCount.push(0);
+		var html = '<div id="' + upgrades[x].elementName + '" class="upgrade tooltip2" title="' + upgrades[x].description + '" onClick="upgrade(' + x + ')"><p>' + upgrades[x].name + '</p><p>' + upgrades[x].cost + ' Dooks</p></div>'
+		upgradeDiv.append(html);
+	}
+	$('.tooltip2').tooltipster();
 }
