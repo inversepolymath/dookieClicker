@@ -1,7 +1,7 @@
 function Turd(){
 	this.size = 20;
-	this.x = random(380);
-	this.y = random(380);
+	this.x = random(canvasWidth-this.size);
+	this.y = random(canvasHeight-this.size);
 	this.dookie = 5;
 	this.timeout = 5;
 	this.color = "green";

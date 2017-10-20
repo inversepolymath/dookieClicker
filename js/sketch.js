@@ -1,21 +1,28 @@
 var dookieCount = 0;
 var dookiePerSecond = 0;
 var dificulty = 1.05;
-var xpos = 200;
-var ypos = 200;
 var xspeed = 0;
 var yspeed = 0;
+var gravity = 0.6;
+var lift = -15;
+var velocity = 0;
+
 var canvasWidth = 400;
-var canvasHeight = 400;
+var canvasHeight = 600;
+var xpos = canvasWidth/2;
+var ypos = canvasHeight;
 var playerSize = 20;
+var wallSize = 10;
+var level;
 
 var turds = [];
 var buyablesCount = [0, 0, 0]
 
 function setup() {   
-  var canvas = createCanvas(400, 400);
+  var canvas = createCanvas(canvasWidth, canvasHeight);
   canvas.parent('sketch-holder');
   turds.push(new Turd());
+  level = random(levels);
 } 
 
 function draw() {
@@ -32,11 +39,37 @@ function draw() {
 		turds.push(new Turd());		
 	}
   }
+  for (var h = 0; h < level.length; h++){
+	for (var j = 0; j < level[h].length; j++){
+		var segment = level[h][j];
+		if (segment == 1){
+			rect(h*wallSize, j*wallSize, wallSize, wallSize);
+		}
+    }
+  }
+}
+
+function isWall(x, y){
+  for (var h = 0; h < level.length; h++){
+	for (var j = 0; j < level[h].length; j++){
+		var segment = level[h][j];
+		if(segment == 1){
+			xwall = h*wallSize;
+			ywall = j*wallSize;
+			hitWall = dist(x, y, xwall-wallSize/2, ywall-wallSize/2);
+			if(hitWall < 15){
+				return ywall;
+			}
+		}
+	}
+  }
 }
 
 function drawPlayer() {
+	console.log(velocity);
 	xpos = xpos + xspeed;
-	ypos = ypos + yspeed;
+	// ypos = ypos + yspeed;
+	ypos += velocity;
 	
 	if(xpos < 0){
 		xpos = 0;
@@ -51,6 +84,21 @@ function drawPlayer() {
 		ypos = (canvasHeight-playerSize);
 	}
 	
+	hitWall = isWall(xpos, ypos);
+	if(hitWall){
+		if(velocity >= 0){
+			velocity = 0;
+			ypos = hitWall-20;
+		}else{
+			velocity = 0;
+			ypos = hitWall+10;
+		}
+	}else{
+		velocity += gravity;
+		velocity *= 0.9;		
+	}
+
+	
 	fill("white");
 	rect(xpos, ypos, playerSize, playerSize, 10);
 	for (var i = 0; i < turds.length; i++) {
@@ -63,8 +111,9 @@ function drawPlayer() {
 }
 
 function keyPressed() {
+	//console.log(keyCode);
 	if(keyCode == 87){
-		yspeed = -2;
+		velocity += lift;
 	}
 	if(keyCode == 83){
 		yspeed = 2;
