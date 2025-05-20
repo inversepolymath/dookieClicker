@@ -1,4 +1,10 @@
-var buyables = [
+// Ensure Game object is defined by sketch.js loading first
+if (typeof Game === 'undefined') {
+  console.error("Game object is not defined. Make sure sketch.js is loaded before buyables.js");
+  // Fallback or throw error, for now, we'll proceed assuming Game exists for diff tool
+}
+
+Game.buyablesData = [
 	{
 		name:'Bartle',
 		cost: 10,

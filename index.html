@@ -1,78 +1,86 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dookie Clicker Game</title>
+    <link rel="stylesheet" type="text/css" href="css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="css/tooltipster.bundle.min.css">
   </head>
   <body>
     <div id="container">
-      <div class="row">
+      <main class="row">
 	    <div class="col-md-6">
 			<div id="sketch-holder">
 			  <!-- Our sketch will go here! -->
 			</div>		
 		</div>
 	    <div class="col-md-6">
-			<div class="row">
-			  <div class="col-xs-6">Dookie Count: <span id="dookieCount">0</span></div>
-			  <div class="col-xs-6 text-right"><button id="click" onClick="clickButton();">Dookie</button></div>
-			</div>
-			<div class="row">
-			  <span id="dps"></span> DPS
-			</div>
-			<div id="buyables">
+			<header>
+				<div class="row">
+				  <div class="col-xs-6"><p>Dookie Count: <span id="dookieCount">0</span></p></div>
+				  <div class="col-xs-6 text-right"><button id="click" onClick="clickButton();">Dookie</button></div>
+				</div>
+				<div class="row">
+				  <p><span id="dps"></span> DPS</p>
+				</div>
+			</header>
+			<section id="buyables" aria-labelledby="buyables-heading">
+			 <h2 id="buyables-heading" class="sr-only">Purchaseable Items</h2> <!-- Assuming sr-only class is available -->
 			 <!-- Bartle -->
-			 <div id="bartle" class="row item" onClick="buyItem(0);">
+			 <article id="bartle" class="row item" onClick="buyItem(0);" role="button" tabindex="0" aria-labelledby="bartle-name" aria-describedby="bartle-cost bartle-dps-info">
 			  <div class="col-xs-10">
-			   <p>Bartle (+<span id="bartleDPS">1</span> DPS)</p>
-			   <p><span id="bartleCost">10</span> Dookies</p>
+			   <h3 id="bartle-name">Bartle (<span id="bartle-dps-info">+<span id="bartleDPS">1</span> DPS</span>)</h3>
+			   <p id="bartle-cost"><span id="bartleCost">10</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
 			   <span class="itemCount" id="bartleCount">0</span>
 			  </div>
-			 </div>
+			 </article>
 			 <!-- Blicker -->
-			 <div id="blicker" class="row item" onClick="buyItem(1);">
+			 <article id="blicker" class="row item" onClick="buyItem(1);" role="button" tabindex="0" aria-labelledby="blicker-name" aria-describedby="blicker-cost blicker-dps-info">
 			  <div class="col-xs-10">
-			   <p>Blicker (+<span id="blickerDPS">5</span> DPS)</p>
-			   <p><span id="blickerCost">100</span> Dookies</p>
+			   <h3 id="blicker-name">Blicker (<span id="blicker-dps-info">+<span id="blickerDPS">5</span> DPS</span>)</h3>
+			   <p id="blicker-cost"><span id="blickerCost">100</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
 			   <span class="itemCount" id="blickerCount">0</span>
 			  </div>
-			 </div>
+			 </article>
 			 <!-- Smork -->
-			 <div id="smork" class="row item" onClick="buyItem(2);">
+			 <article id="smork" class="row item" onClick="buyItem(2);" role="button" tabindex="0" aria-labelledby="smork-name" aria-describedby="smork-cost smork-dps-info">
 			  <div class="col-xs-10">
-			   <p>Smork (+<span id="smorkDPS">15</span> DPS)</p>
-			   <p><span id="smorkCost">1250</span> Dookies</p>
+			   <h3 id="smork-name">Smork (<span id="smork-dps-info">+<span id="smorkDPS">15</span> DPS</span>)</h3>
+			   <p id="smork-cost"><span id="smorkCost">1250</span> Dookies</p>
 			  </div>
 			  <div class="col-xs-2">
 			   <span class="itemCount" id="smorkCount">0</span>
 			  </div>
-			 </div>
-			</div>
+			 </article>
+			</section>
 			
-			<div id="upgrades" class="row">
-
-			</div>
+			<section id="upgrades" class="row" aria-labelledby="upgrades-heading">
+			  <h2 id="upgrades-heading" class="sr-only">Upgrades</h2> <!-- Assuming sr-only class is available -->
+			  <!-- Content for upgrades will go here -->
+			</section>
 		</div>
-	   </div>
+	   </main> <!-- Closing main tag -->
 	</div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="js/tooltipster.bundle.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/p5.min.js"></script>
-  <script src="js/buyables.js"></script>  
-  <script src="js/sketch.js"></script>  
-  <script src="js/turd.js"></script>  
-  <script src="js/levels.js"></script>  
-  <script src="js/upgrades.js"></script>
+  <script src="js/sketch.js"></script>      <!-- Defines Game object -->
+  <script src="js/buyables.js"></script>    <!-- Populates Game.buyablesData -->
+  <script src="js/upgrades.js"></script>    <!-- Populates Game.upgradesData -->
+  <script src="js/levels.js"></script>      <!-- Populates Game.levelsData -->
+  <script src="js/turd.js"></script>        <!-- Defines Turd constructor -->
   <script>
-	$(document).ready(function() {
+	// $(document).ready(function() {
 		
-	});
+	// });
   </script>
 </html>

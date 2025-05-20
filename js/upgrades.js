@@ -1,4 +1,9 @@
-var upgrades = [
+// Ensure Game object is defined by sketch.js loading first
+if (typeof Game === 'undefined') {
+  console.error("Game object is not defined. Make sure sketch.js is loaded before upgrades.js");
+}
+
+Game.upgradesData = [
 	{
 	 name: "Better Dookies",
 	 elementName: "betterDookies",
